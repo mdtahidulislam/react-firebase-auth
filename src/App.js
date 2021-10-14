@@ -17,10 +17,16 @@ function App() {
   // email and pass state from from
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+  const [error, setError] = useState('');
 
   // register btn handler
   const handleRegistration = (e) => {
     e.preventDefault();
+    // pass validation
+    if (pass.length < 6) {
+      setError('Password should be at least 6 characters long.');
+      return;
+    }
     console.log(email, pass);
     createUserWithEmailAndPassword(auth, email, pass)
       .then(result => {
@@ -74,6 +80,7 @@ function App() {
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <input onBlur={handlePassChange} type="password" class="form-control" id="exampleInputPassword1" />
           </div>
+          {error}
           <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1" />
             <label class="form-check-label" for="exampleCheck1">Check me out</label>
