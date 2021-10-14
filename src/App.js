@@ -18,6 +18,7 @@ function App() {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [error, setError] = useState('');
+  const [isRegistered, setIsregistered] = useState(false);
 
   // register btn handler
   const handleRegistration = (e) => {
@@ -47,6 +48,11 @@ function App() {
     setPass(e.target.value);
   }
 
+  // check box toggl handler
+  const toggleRegLog = (e) => {
+    setIsregistered(e.target.checked);
+  }
+
   // sign in btn handler
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
@@ -74,7 +80,7 @@ function App() {
       {/* login form */}
       <div className="container">
         <form onSubmit={handleRegistration}>
-          <h1>Please register</h1>
+          <h1>Please {isRegistered ? 'Login' : 'Register'}</h1>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <input onBlur={handleEmailChange} type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
@@ -86,10 +92,10 @@ function App() {
           </div>
           {error}
           <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            <input onChange={toggleRegLog} type="checkbox" class="form-check-input" id="exampleCheck1" />
+            <label class="form-check-label" for="exampleCheck1">Already Registered?</label>
           </div>
-          <button type="submit" class="btn btn-primary">Register</button>
+          <button type="submit" class="btn btn-primary">{isRegistered ? 'Login' : 'Register'}</button>
         </form>
 
 
