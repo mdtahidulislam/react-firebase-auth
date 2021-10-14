@@ -1,5 +1,5 @@
 import './App.css';
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword } from 'firebase/auth';
 import initAuthentication from './Firebase/init.firebase';
 import { useState } from 'react';
 
@@ -22,6 +22,11 @@ function App() {
   const handleRegistration = (e) => {
     e.preventDefault();
     console.log(email, pass);
+    createUserWithEmailAndPassword(auth, email, pass)
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+      })
   }
   // get email
   const handleEmailChange = (e) => {
