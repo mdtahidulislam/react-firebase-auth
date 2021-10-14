@@ -39,9 +39,12 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={handleGoogleSignIn}>Google SignIn</button>
-      {/* signout btn */}
-      <button onClick={handleSignOut}>Signout</button>
+      {!user.name ?
+        <div>
+          <button onClick={handleGoogleSignIn}>Google SignIn</button>
+        </div> :
+        <button onClick={handleSignOut}>Signout</button>
+      }
       <hr />
       {/* show user info */}
       {
