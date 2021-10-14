@@ -14,6 +14,23 @@ function App() {
   // user state
   const [user, setUser] = useState([]);
   const auth = getAuth();
+  // email and pass state from from
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+
+  // register btn handler
+  const handleRegistration = (e) => {
+    e.preventDefault();
+    console.log(email, pass);
+  }
+  // get email
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  }
+  // get pass
+  const handlePassChange = (e) => {
+    setPass(e.target.value);
+  }
 
   // sign in btn handler
   const handleGoogleSignIn = () => {
@@ -38,23 +55,47 @@ function App() {
   }
 
   return (
-    <div className="App">
-      {!user.name ?
-        <div>
-          <button onClick={handleGoogleSignIn}>Google SignIn</button>
-        </div> :
-        <button onClick={handleSignOut}>Signout</button>
-      }
-      <hr />
-      {/* show user info */}
-      {
-        user.email && <>
-          <h1>Welcome to {user.name}</h1>
-          <p>{user.email}</p>
-          <img src={user.img} alt={user.name} />
-        </>
+    <div className="">
+      {/* login form */}
+      <div className="container">
+        <form onSubmit={handleRegistration}>
+          <h1>Please register</h1>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input onBlur={handleEmailChange} type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input onBlur={handlePassChange} type="password" class="form-control" id="exampleInputPassword1" />
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
 
-      }
+
+        <div>---------------------------</div>
+
+        {!user.name ?
+          <div>
+            <button onClick={handleGoogleSignIn}>Google SignIn</button>
+          </div> :
+          <button onClick={handleSignOut}>Signout</button>
+        }
+        <hr />
+        {/* show user info */}
+        {
+          user.email && <>
+            <h1>Welcome to {user.name}</h1>
+            <p>{user.email}</p>
+            <img src={user.img} alt={user.name} />
+          </>
+
+        }
+      </div>
     </div>
   );
 }
