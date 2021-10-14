@@ -32,6 +32,10 @@ function App() {
       .then(result => {
         const user = result.user;
         console.log(user);
+        setError('');
+      })
+      .catch(error => {
+        setError(error.message);
       })
   }
   // get email
