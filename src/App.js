@@ -1,5 +1,5 @@
 import './App.css';
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import initAuthentication from './Firebase/init.firebase';
 import { useState } from 'react';
 
@@ -28,7 +28,13 @@ function App() {
       setError('Password should be at least 6 characters long.');
       return;
     }
-    console.log(email, pass);
+
+    isRegistered ? logUserWithEmailPass(email, pass) : regUserWithEmailPass(email, pass);
+
+  }
+
+  // register user with email & password
+  const regUserWithEmailPass = (email, pass) => {
     createUserWithEmailAndPassword(auth, email, pass)
       .then(result => {
         const user = result.user;
@@ -39,6 +45,19 @@ function App() {
         setError(error.message);
       })
   }
+
+  // login user with email & password
+  const logUserWithEmailPass = (email, pass) => {
+    signInWithEmailAndPassword(auth, email, pass)
+      .then((result) => {
+        const user = result.user;
+        console.log('logged in, ' + user);
+      })
+      .catch(error => {
+        setError(error.message);
+      })
+  }
+
   // get email
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -51,6 +70,7 @@ function App() {
   // check box toggl handler
   const toggleRegLog = (e) => {
     setIsregistered(e.target.checked);
+    setError('');
   }
 
   // sign in btn handler
