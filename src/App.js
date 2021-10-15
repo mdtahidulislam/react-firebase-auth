@@ -1,5 +1,5 @@
 import './App.css';
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth';
 import initAuthentication from './Firebase/init.firebase';
 import { useState } from 'react';
 
@@ -53,6 +53,14 @@ function App() {
     sendEmailVerification(auth.currentUser)
       .then(result => {
         console.log(result);
+      })
+  }
+
+  // password reset email
+  const handleResetPassword = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+
       })
   }
 
@@ -125,7 +133,8 @@ function App() {
             <input onChange={toggleRegLog} type="checkbox" class="form-check-input" id="exampleCheck1" />
             <label class="form-check-label" for="exampleCheck1">Already Registered?</label>
           </div>
-          <button type="submit" class="btn btn-primary">{isRegistered ? 'Login' : 'Register'}</button>
+          <button type="submit" class="btn btn-primary me-2">{isRegistered ? 'Login' : 'Register'}</button>
+          <button onClick={handleResetPassword} type="button" class="btn btn-primary">Reset Password</button>
         </form>
 
 
