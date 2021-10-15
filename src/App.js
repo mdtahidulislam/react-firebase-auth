@@ -1,5 +1,5 @@
 import './App.css';
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import initAuthentication from './Firebase/init.firebase';
 import { useState } from 'react';
 
@@ -40,9 +40,19 @@ function App() {
         const user = result.user;
         console.log(user);
         setError('');
+        // send verification email
+        veryfyEmail();
       })
       .catch(error => {
         setError(error.message);
+      })
+  }
+
+  // verify email address
+  const veryfyEmail = () => {
+    sendEmailVerification(auth.currentUser)
+      .then(result => {
+        console.log(result);
       })
   }
 
@@ -51,7 +61,7 @@ function App() {
     signInWithEmailAndPassword(auth, email, pass)
       .then((result) => {
         const user = result.user;
-        console.log('logged in, ' + user);
+        console.log(user);
       })
       .catch(error => {
         setError(error.message);
