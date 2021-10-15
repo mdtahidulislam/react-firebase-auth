@@ -1,5 +1,5 @@
 import './App.css';
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth';
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile } from 'firebase/auth';
 import initAuthentication from './Firebase/init.firebase';
 import { useState } from 'react';
 
@@ -12,6 +12,7 @@ const googleProvider = new GoogleAuthProvider();
 
 function App() {
   // user state
+  const [name, setName] = useState('');
   const [user, setUser] = useState([]);
   const auth = getAuth();
   // email and pass state from from
@@ -42,10 +43,20 @@ function App() {
         setError('');
         // send verification email
         veryfyEmail();
+        // set user name
+        setUserName();
       })
       .catch(error => {
         setError(error.message);
       })
+  }
+
+  // set user info into firebase
+  const setUserName = () => {
+    updateProfile(auth.currentUser, {
+      displayName: name
+    })
+      .then(result => { })
   }
 
   // verify email address
@@ -74,6 +85,11 @@ function App() {
       .catch(error => {
         setError(error.message);
       })
+  }
+
+  // get name
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   }
 
   // get email
@@ -119,6 +135,11 @@ function App() {
       <div className="container">
         <form onSubmit={handleRegistration}>
           <h1>Please {isRegistered ? 'Login' : 'Register'}</h1>
+          {!isRegistered && <div class="mb-3">
+            <label for="exampleInputEmail2" class="form-label">Name</label>
+            <input onBlur={handleNameChange} type="text" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" />
+          </div>
+          }
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <input onBlur={handleEmailChange} type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
